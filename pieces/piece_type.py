@@ -5,3 +5,4 @@ class PieceType:
     BISHOP = "BISHOP"
     KNIGHT = "KNIGHT"
     PAWN = "PAWN"
+    EMPTY = "EMPTY"

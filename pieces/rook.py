@@ -11,5 +11,20 @@ class Rook(BasePiece):
         if (self.color == Color.BLACK):
             return "\u265C"
         else:
-            return "\u2656"
+            return "\u2656"     
 
+    def can_move_to(self, board, des_row, des_col):
+
+        # TODO: implement board.get_position
+        cur_row = board.get_position(self)[0]
+        cur_col = board.get_position(self)[1]
+        #
+        if (des_col > cur_col and des_row == cur_row ):
+            # right
+        else if (des_col < cur_col and des_row == cur_row):
+            # left
+        else if (des_row < cur_row and des_col == cur_col):
+            # top
+        else if (des_row > cur_row and des_col == cur_col):
+            # bottom
+        return false

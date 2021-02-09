@@ -28,6 +28,16 @@ class Rook(BasePiece):
         # #
         # if (des_col > cur_col and des_row == cur_row ):
         #     # right
+            # for i in range(cur_col, des_col + 1):
+            #         if (board.get_board()[des_row][i] != Empty()):
+            #             if board.get_board()[des_row][i].get_color() != self.color:
+            #                 if i == des_col:
+            #                     return True
+            #                 else:
+            #                     return False
+            #             else: 
+            #                 return False
+            #     return True
         # else if (des_col < cur_col and des_row == cur_row):
         #     # left
         # else if (des_row < cur_row and des_col == cur_col):

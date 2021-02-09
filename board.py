@@ -7,6 +7,7 @@ from pieces.bishop import Bishop
 from pieces.pawn import Pawn
 from pieces.king import King
 from pieces.empty import Empty
+import numpy as np
 
 class Board:
 
@@ -19,9 +20,8 @@ class Board:
 
     def create_board(self):
         b = list()
-        black_first_row = [Rook(Color.BLACK), Knight(Color.BLACK), \
-             Bishop(Color.BLACK), Queen(Color.BLACK), King(Color.BLACK), \
-                 Bishop(Color.BLACK), Knight(Color.BLACK), Rook(Color.BLACK)]
+        black_first_row = [Rook(Color.BLACK), Knight(Color.BLACK), Bishop(Color.BLACK), Queen(Color.BLACK), King(Color.BLACK), \
+            Bishop(Color.BLACK), Knight(Color.BLACK), Rook(Color.BLACK)]
         black_second_row = [Pawn(Color.BLACK) for i in range(len(Board.LETTERS))]
 
         b.append(black_first_row)
@@ -37,7 +37,11 @@ class Board:
         b.append(white_second_row)
         b.append(white_first_row)
         
-        return b
+        unshaped_array=np.asarray(b)
+        # reshape array into 8 rows x 8 columns, and transpose the result
+        board_array = unshaped_array.reshape(8, 8).T
+        #np.swapaxes(board_array,1,0)
+        return board_array
 
     def __str__(self):
 

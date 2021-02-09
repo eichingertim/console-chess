@@ -15,6 +15,8 @@ class Board:
     NUMBERS = [i for i in range(1, 9)]
     NUMBERS.reverse()
 
+    board_array = np.ones((8,8))
+
     def __init__(self):
         self.board = self.create_board()
 
@@ -37,10 +39,7 @@ class Board:
         b.append(white_second_row)
         b.append(white_first_row)
         
-        unshaped_array=np.asarray(b)
-        # reshape array into 8 rows x 8 columns, and transpose the result
-        board_array = unshaped_array.reshape(8, 8).T
-        #np.swapaxes(board_array,1,0)
+        board_array=np.asarray(b)
         return board_array
 
     def __str__(self):
@@ -71,3 +70,9 @@ class Board:
             board_str += "\n   "
         
         return board_str
+
+    def get_board(self):
+        return self.board
+
+    def get_position(self):
+        pass

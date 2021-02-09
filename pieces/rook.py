@@ -15,7 +15,9 @@ class Rook(BasePiece):
 
     def can_move_to(self, board, des_row, des_col):
 
-        # TODO: implement board.get_position
+        # TODO: implement board.get_position()
+        # TODO: implement borad.get_board()
+        # TODO: implement borad.get_Board().get_color()
         cur_row = board.get_position(self)[0]
         cur_col = board.get_position(self)[1]
         #

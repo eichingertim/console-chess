@@ -7,6 +7,7 @@ from pieces.bishop import Bishop
 from pieces.pawn import Pawn
 from pieces.king import King
 from pieces.empty import Empty
+import numpy as np
 
 class Board:
 
@@ -18,25 +19,19 @@ class Board:
         self.board = self.create_board()
 
     def create_board(self):
-        b = list()
-        black_first_row = [Rook(Color.BLACK), Knight(Color.BLACK), \
+        b = np.zeros((8,8), dtype=BasePiece)
+        b[0] = [Rook(Color.BLACK), Knight(Color.BLACK), \
              Bishop(Color.BLACK), Queen(Color.BLACK), King(Color.BLACK), \
                  Bishop(Color.BLACK), Knight(Color.BLACK), Rook(Color.BLACK)]
-        black_second_row = [Pawn(Color.BLACK) for i in range(len(Board.LETTERS))]
-
-        b.append(black_first_row)
-        b.append(black_second_row)
+        b[1] = [Pawn(Color.BLACK) for i in range(len(Board.LETTERS))]
 
         for i in range(len(Board.LETTERS) - 4):
-            b.append([Empty() for i in range(len(Board.LETTERS))])
+            b[i+2] = [Empty() for i in range(len(Board.LETTERS))]
 
-        white_second_row = [Pawn(Color.WHITE) for i in range(len(Board.LETTERS))]
-        white_first_row = [Rook(Color.WHITE), Knight(Color.WHITE), \
+        b[6] = [Pawn(Color.WHITE) for i in range(len(Board.LETTERS))]
+        b[7] = [Rook(Color.WHITE), Knight(Color.WHITE), \
              Bishop(Color.WHITE), Queen(Color.WHITE), King(Color.WHITE), \
-                 Bishop(Color.WHITE), Knight(Color.WHITE), Rook(Color.WHITE)]
-        b.append(white_second_row)
-        b.append(white_first_row)
-        
+                 Bishop(Color.WHITE), Knight(Color.WHITE), Rook(Color.WHITE)]  
         return b
 
     def __str__(self):

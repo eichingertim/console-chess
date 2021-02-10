@@ -62,3 +62,9 @@ class Board:
             board_str += "\n   "
         
         return board_str
+
+    def get_board(self):
+        return self.board
+
+    def get_position(self):
+        pass

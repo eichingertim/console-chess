@@ -12,3 +12,6 @@ class BasePiece:
 
     def __str__(self):
         pass
+
+    def get_color(self):
+        return self.color

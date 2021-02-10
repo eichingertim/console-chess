@@ -15,8 +15,6 @@ class Board:
     NUMBERS = [i for i in range(1, 9)]
     NUMBERS.reverse()
 
-    board_array = np.ones((8,8))
-
     def __init__(self):
         self.board = self.create_board()
 
@@ -27,7 +25,6 @@ class Board:
                  Bishop(Color.BLACK), Knight(Color.BLACK), Rook(Color.BLACK)]
         b[1] = [Pawn(Color.BLACK) for i in range(len(Board.LETTERS))]
 
-
         for i in range(len(Board.LETTERS) - 4):
             b[i+2] = [Empty() for i in range(len(Board.LETTERS))]
 
@@ -36,7 +33,6 @@ class Board:
              Bishop(Color.WHITE), Queen(Color.WHITE), King(Color.WHITE), \
                  Bishop(Color.WHITE), Knight(Color.WHITE), Rook(Color.WHITE)]  
         return b
-
 
     def __str__(self):
 

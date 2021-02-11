@@ -4,11 +4,11 @@ class BasePiece:
         self.piece_type = piece_type
         self.color = color
 
+    def can_move(self, board, dest_row, dest_col):
+        pass
+
     def __eq__(self, piece):
-        if(not piece):
-            return False 
-        
-        return piece.piece_type == self.piece_type and piece.color == self.color
+        return piece is self
 
     def __str__(self):
         pass

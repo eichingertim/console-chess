@@ -66,5 +66,12 @@ class Board:
     def get_board(self):
         return self.board
 
-    def get_position(self):
-        pass
+    def get_position(self, piece):
+        row, col = np.where(self.board == piece)
+        return (row[0], col[0])
+
+    def is_valid_pos(self, pos):
+        if 0 <= pos[0] <= 7 and 0 <= pos[1] <= 7:
+            return True
+        else:
+            return False

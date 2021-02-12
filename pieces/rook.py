@@ -15,16 +15,25 @@ class Rook(BasePiece):
 
     def can_move(self, board, des_row, des_col):
 
-        # TODO: implement board.get_position()
-        # cur_row = board.get_position(self)[0]
-        # cur_col = board.get_position(self)[1]
-        # cur_row = board.get_position(self)
-        # cur_col = board.get_position(self)
+        cur_row, cur_col = board.get_position(self)
 
-        # return can_move_to(self, board, des_row, des_col, cur_row, cur_col)
-        pass
+        # Checks if destination position is current position
+        # or is not a horizontal/vertical movement
+        # TODO (reihenfolge wichtig?)
+        if ((cur_col - des_col) != 0 and (cur_row - des_row) != 0) \
+            or (cur_col, cur_row) == (des_row, des_col):
+            return False
 
-    def can_move_to(self, board, des_row, des_col):
+        # calculates the direction for move
+        direction = (1 if cur_row - des_row < 0 else -1 if des_row - cur_row < 0 else 0, \
+            1 if cur_col - des_col < 0 else -1 if des_col - cur_col < 0 else 0)
+        # -1 left/up
+        # 1 right/down
+            
+        return self.check_move_for_direction(direction, \
+            (des_row, des_col), (cur_row, cur_col), board)
+
+    def check_move_for_direction(self, direction, des_pos, cur_pos, board):
         # #
         # if (des_col > cur_col and des_row == cur_row ):
         #     # right

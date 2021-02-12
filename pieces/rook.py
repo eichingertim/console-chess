@@ -1,6 +1,8 @@
 from .base_piece import BasePiece
 from .piece_type import PieceType
+from .empty import Empty
 from .color import Color
+import operator
 
 class Rook(BasePiece):
 
@@ -33,25 +35,22 @@ class Rook(BasePiece):
         return self.check_move_for_direction(direction, \
             (des_row, des_col), (cur_row, cur_col), board)
 
+    # goes through all fields in the given direction and checks if 
+    # the piece can move to this point
     def check_move_for_direction(self, direction, des_pos, cur_pos, board):
-        # #
-        # if (des_col > cur_col and des_row == cur_row ):
-        #     # right
-            # for i in range(cur_col, des_col + 1):
-            #         if (board.get_board()[des_row][i] != Empty()):
-            #             if board.get_board()[des_row][i].get_color() != self.color:
-            #                 if i == des_col:
-            #                     return True
-            #                 else:
-            #                     return False
-            #             else: 
-            #                 return False
-            #     return True
-        # else if (des_col < cur_col and des_row == cur_row):
-        #     # left
-        # else if (des_row < cur_row and des_col == cur_col):
-        #     # top
-        # else if (des_row > cur_row and des_col == cur_col):
-        #     # bottom
-        # return false
-        pass
+        for distance in range(1, 8):
+            move = (distance * direction[0], distance * direction[1])
+            new_pos = tuple(map(operator.add, cur_pos, move))
+            if board.is_valid_pos(new_pos):
+                piece_at_pos = board.board[new_pos[0]][new_pos[1]]
+                if isinstance(piece_at_pos, Empty):
+                    if (new_pos == des_pos):
+                        return True
+                else:
+                    if piece_at_pos.color == self.color:
+                        return False
+                    else:
+                        return new_pos == des_pos
+            else:
+                return False
+        return False

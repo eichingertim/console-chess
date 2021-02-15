@@ -47,7 +47,49 @@ class Board:
         if piece.piece_type == PieceType.KING:
             self.is_game_over = True
 
-"""
+    def __str__(self):
+
+        board_str = "\n       "
+
+        for c in Board.LETTERS:
+            board_str += " {0}  ".format(c)
+        
+        board_str += "\n       "
+
+        for c in range(len(Board.LETTERS)):
+            board_str += "--- "
+
+        board_str += "\n   "
+
+        for i, n in enumerate(Board.NUMBERS):
+            board_str += " {0} | ".format(n)
+
+            for piece in self.board[i]:
+                board_str += "{0} | ".format(piece.__str__())
+
+            board_str += "\n       "
+
+            for c in Board.LETTERS:
+                board_str += "--- "
+
+            board_str += "\n   "
+        
+        return board_str
+
+    def get_board(self):
+        return self.board
+
+    def get_position(self, piece):
+        row, col = np.where(self.board == piece)
+        return (row[0], col[0])
+
+    def is_valid_pos(self, pos):
+        if 0 <= pos[0] <= 7 and 0 <= pos[1] <= 7:
+            return True
+        else:
+            return False
+
+    """
     def check_for_check_mate(self, color):
 
         k = self.king_white if color == Color.BLACK else self.king_black
@@ -94,46 +136,3 @@ class Board:
 
         return c
 """
-
-
-    def __str__(self):
-
-        board_str = "\n       "
-
-        for c in Board.LETTERS:
-            board_str += " {0}  ".format(c)
-        
-        board_str += "\n       "
-
-        for c in range(len(Board.LETTERS)):
-            board_str += "--- "
-
-        board_str += "\n   "
-
-        for i, n in enumerate(Board.NUMBERS):
-            board_str += " {0} | ".format(n)
-
-            for piece in self.board[i]:
-                board_str += "{0} | ".format(piece.__str__())
-
-            board_str += "\n       "
-
-            for c in Board.LETTERS:
-                board_str += "--- "
-
-            board_str += "\n   "
-        
-        return board_str
-
-    def get_board(self):
-        return self.board
-
-    def get_position(self, piece):
-        row, col = np.where(self.board == piece)
-        return (row[0], col[0])
-
-    def is_valid_pos(self, pos):
-        if 0 <= pos[0] <= 7 and 0 <= pos[1] <= 7:
-            return True
-        else:
-            return False

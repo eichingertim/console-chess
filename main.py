@@ -4,11 +4,8 @@
 #     Tim Eichinger, Mat.Nr. TODO
 #     Timon Lorenz, Mat.Nr. 2101422
 
-from board import Board
+from game import Game
 
-board = Board()
+game = Game()
 
-print(board)
-print(board.get_board()[0][0].get_color())
-
-print(board.get_board()[0][2].can_move(board, 3 ,5))
+game.start_game()

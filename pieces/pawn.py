@@ -24,11 +24,13 @@ class Pawn(BasePiece):
 
         # Checks if destination is current position
         if (cur_col, cur_row) == (des_row, des_col):
+            print("LOL1")
             return False
 
         # Checks if direction is allowed regarding their color
-        if (self.color == Color.BLACK and des_row - cur_row > 0) or \
-            (self.color == Color.WHITE and cur_row -des_row > 0):
+        if (self.color == Color.BLACK and des_row - cur_row < 0) or \
+            (self.color == Color.WHITE and des_row - cur_row > 0):
+            print("LOL2")
             return False
 
         # Check normal move, double move and checks if he can beat
@@ -41,16 +43,17 @@ class Pawn(BasePiece):
                 if isinstance(piece_at_pos, Empty):
                     return True
                 else:
+                    print("LOL3")
                     return False
             # Check double move
-            else if (abs(des_row - cur_row) == 2):
+            elif (abs(des_row - cur_row) == 2):
                 if(self.color == Color.BLACK):
                     return self.check_double_move(1, 1, (des_row, des_col), (cur_row, cur_col), board)
                 else:
                     return self. check_double_move(6, -1, (des_row, des_col), (cur_row, cur_col), board)
             else: 
                 return False
-        else if (abs(des_col - cur_col) == 1):
+        elif (abs(des_col - cur_col) == 1):
             move = (1 if self.color == Color.BLACK else -1, (des_col - cur_col))
             new_pos = tuple(map(operator.add, (cur_row, cur_col), move))
             piece_at_pos = board.board[new_pos[0]][new_pos[1]]

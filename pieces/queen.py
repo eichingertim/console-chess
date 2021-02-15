@@ -1,6 +1,8 @@
 from .base_piece import BasePiece
 from .piece_type import PieceType
+from .empty import Empty
 from .color import Color
+import operator
 
 class Queen(BasePiece):
 
@@ -12,4 +14,3 @@ class Queen(BasePiece):
             return "\u265B"
         else:
             return "\u2655"
-

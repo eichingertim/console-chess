@@ -1,6 +1,8 @@
 from .base_piece import BasePiece
 from .piece_type import PieceType
+from .empty import Empty
 from .color import Color
+import operator
 
 class Rook(BasePiece):
 
@@ -15,24 +17,40 @@ class Rook(BasePiece):
 
     def can_move(self, board, des_row, des_col):
 
-        # TODO: implement board.get_position()
-        # cur_row = board.get_position(self)[0]
-        # cur_col = board.get_position(self)[1]
-        # cur_row = board.get_position(self)
-        # cur_col = board.get_position(self)
+        cur_row, cur_col = board.get_position(self)
 
-        # return can_move_to(self, board, des_row, des_col, cur_row, cur_col)
-        pass
+        # Checks if destination position is current position
+        # or is not a horizontal/vertical movement
+        # TODO (reihenfolge wichtig?)
+        if ((cur_col - des_col) != 0 and (cur_row - des_row) != 0) \
+            or (cur_col, cur_row) == (des_row, des_col):
+            return False
 
-    def can_move_to(self, board, des_row, des_col):
-        # #
-        # if (des_col > cur_col and des_row == cur_row ):
-        #     # right
-        # else if (des_col < cur_col and des_row == cur_row):
-        #     # left
-        # else if (des_row < cur_row and des_col == cur_col):
-        #     # top
-        # else if (des_row > cur_row and des_col == cur_col):
-        #     # bottom
-        # return false
-        pass
+        # calculates the direction for move
+        direction = (1 if cur_row - des_row < 0 else -1 if des_row - cur_row < 0 else 0, \
+            1 if cur_col - des_col < 0 else -1 if des_col - cur_col < 0 else 0)
+        # -1 left/up
+        # 1 right/down
+            
+        return self.check_move_for_direction(direction, \
+            (des_row, des_col), (cur_row, cur_col), board)
+
+    # goes through all fields in the given direction and checks if 
+    # the piece can move to this point
+    def check_move_for_direction(self, direction, des_pos, cur_pos, board):
+        for distance in range(1, 8):
+            move = (distance * direction[0], distance * direction[1])
+            new_pos = tuple(map(operator.add, cur_pos, move))
+            if board.is_valid_pos(new_pos):
+                piece_at_pos = board.board[new_pos[0]][new_pos[1]]
+                if isinstance(piece_at_pos, Empty):
+                    if (new_pos == des_pos):
+                        return True
+                else:
+                    if piece_at_pos.color == self.color:
+                        return False
+                    else:
+                        return new_pos == des_pos
+            else:
+                return False
+        return False

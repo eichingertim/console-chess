@@ -38,9 +38,9 @@ class Bishop(BasePiece):
     # the piece can move to this point
     def check_move_for_direction(self, dir, destPos, curPos, board):
         for distance in range(1, 8):
+            #TODO dir ist eigentlich schon vergeben?!
             move = (distance * dir[0], distance*dir[1])
             new_pos = tuple(map(operator.add, curPos, move))
-
             if board.is_valid_pos(new_pos):
                 piece_at_pos = board.board[new_pos[0]][new_pos[1]]
 

@@ -87,7 +87,14 @@ class Board:
         return self.board[pos[0]][pos[1]].piece_type
 
     def set_piece(self, piece_type, color, pos):
-        self.board[pos[0]][pos[1]] = Queen(color)
+        if(piece_type == "BISHOP"):
+            self.board[pos[0]][pos[1]] = Bishop(color)
+        elif(piece_type == "ROOK"):
+            self.board[pos[0]][pos[1]] = Rook(color)
+        elif(piece_type == "KNIGHT"):
+            self.board[pos[0]][pos[1]] = Knight(color)
+        else:
+            self.board[pos[0]][pos[1]] = Queen(color)
 
     def is_valid_pos(self, pos):
         if 0 <= pos[0] <= 7 and 0 <= pos[1] <= 7:

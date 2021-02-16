@@ -54,13 +54,9 @@ class Utils:
     @staticmethod
     def convert_input_str_to_pos(input):
 
-        print(input)
-
         pos = np.zeros(2, dtype=int)
 
         col, row = input
-
-        print(col)
 
         for i in range(len(Board.LETTERS)):
             if Board.LETTERS[i] == col:
@@ -72,7 +68,5 @@ class Utils:
             if Board.NUMBERS[i] == int(row):
                 pos[0] = i
                 break
-
-        print(pos)
 
         return pos

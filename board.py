@@ -83,6 +83,12 @@ class Board:
         row, col = np.where(self.board == piece)
         return (row[0], col[0])
 
+    def get_type(self, pos):
+        return self.board[pos[0]][pos[1]].piece_type
+
+    def set_piece(self, piece_type, color, pos):
+        self.board[pos[0]][pos[1]] = Queen(color)
+
     def is_valid_pos(self, pos):
         if 0 <= pos[0] <= 7 and 0 <= pos[1] <= 7:
             return True

@@ -24,13 +24,11 @@ class Pawn(BasePiece):
 
         # Checks if destination is current position
         if (cur_col, cur_row) == (des_row, des_col):
-            print("LOL1")
             return False
 
         # Checks if direction is allowed regarding their color
         if (self.color == Color.BLACK and des_row - cur_row < 0) or \
             (self.color == Color.WHITE and des_row - cur_row > 0):
-            print("LOL2")
             return False
 
         # Check normal move, double move and checks if he can beat
@@ -43,7 +41,6 @@ class Pawn(BasePiece):
                 if isinstance(piece_at_pos, Empty):
                     return True
                 else:
-                    print("LOL3")
                     return False
             # Check double move
             elif (abs(des_row - cur_row) == 2):

@@ -2,6 +2,7 @@ from board import Board
 from player import Player
 from pieces.color import Color
 from helper.utils import Utils
+from pieces.piece_type import PieceType
 
 class Game:
 
@@ -52,6 +53,20 @@ class Game:
         s_pos, e_pos = val_result.start_pos, val_result.end_pos
 
         self.board.move(s_pos, e_pos)
+
+
+        if (e_pos[0] == 0 or e_pos[0] == 7) and self.board.get_type(e_pos) == PieceType.PAWN:
+            # TODO auch andere arten der Bauernumwandlung abfragen
+            self.board.set_piece(PieceType.QUEEN, player.color, e_pos)
+
+            #transformation = input("Choose between Rook, Bishop, Knight of Queen: \n")
+            #while (transformation != "Rook" or transformation != "Bishop" or \
+            #    transformation != "Knight" or transformation != "Queen"):
+            #    print("Please enter valid piece, for example: Queen")
+            #    transformation = input("Choose between Rook, Bishop, Knight of Queen: \n")
+            #piece_type = PieceType.ROOK if transformation == "Rook" else PieceType.BISHOP \
+            #    if transformation == "Bishop" else PieceType.KNIGHT if transformation == "Knight" else PieceType.QUEEN
+                
 
         return player.color
 

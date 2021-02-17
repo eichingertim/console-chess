@@ -44,9 +44,17 @@ class Board:
         self.board[end_pos[0]][end_pos[1]] = self.board[start_pos[0]][start_pos[1]]
         self.board[start_pos[0]][start_pos[1]] = Empty()
 
-        # Set is moved for special turn rochade
-        if self.board[end_pos[0]][end_pos[1]].piece_type == PieceType.KING:
+        # Special turn rochade
+        if self.board[end_pos[0]][end_pos[1]].piece_type == PieceType.KING or self.board[end_pos[0]][end_pos[1]].piece_type == PieceType.ROOK:
             self.board[end_pos[0]][end_pos[1]].is_moved = True
+            if self.board[end_pos[0]][end_pos[1]].piece_type == PieceType.KING and abs(start_pos[1] - end_pos[1]) >= 0:
+                # moves rook
+                direction = -1 if end_pos[1] - start_pos[1] < 0 else 1
+                rook = self.board[end_pos[0]][end_pos[1]+direction]
+                self.board[end_pos[0]][end_pos[1] - direction] = rook
+                self.board[end_pos[0]][end_pos[1] + direction] = Empty()
+                self.board[end_pos[0]][end_pos[1] - direction].is_moved = True
+
 
         if piece.piece_type == PieceType.KING:
             self.is_game_over = True

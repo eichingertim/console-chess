@@ -21,7 +21,7 @@ class Pawn(BasePiece):
         cur_row, cur_col =  board.get_position(self)
 
         # Checks if destination is current position
-        if (cur_col, cur_row) == (des_row, des_col):
+        if (cur_col, cur_row) == (des_col, des_row):
             return False
 
         # Checks if direction is allowed regarding their color
@@ -29,7 +29,7 @@ class Pawn(BasePiece):
             (self.color == Color.WHITE and des_row - cur_row > 0):
             return False
 
-        # Check normal move, double move and checks if he can beat
+        # Check normal move and double move
         if (des_col - cur_col == 0):
             # Check normal move
             if (abs(des_row - cur_row) == 1):
@@ -48,7 +48,9 @@ class Pawn(BasePiece):
                     return self. check_double_move(6, -1, (des_row, des_col), (cur_row, cur_col), board)
             else: 
                 return False
-        elif (abs(des_col - cur_col) == 1):
+
+        # Check if he can beat
+        if (abs(des_col - cur_col) == 1 and abs(des_row - cur_row) == 1):
             move = (1 if self.color == Color.BLACK else -1, (des_col - cur_col))
             new_pos = tuple(map(operator.add, (cur_row, cur_col), move))
             piece_at_pos = board.board[new_pos[0]][new_pos[1]]
@@ -64,8 +66,8 @@ class Pawn(BasePiece):
                     return False
                 else:
                     return new_pos == (des_row, des_col)
-        else:
-            return False
+
+        return False
 
     def check_double_move(self, start_row, direction, des_pos, cur_pos, board):
         if (cur_pos[0] == start_row):
@@ -82,6 +84,11 @@ class Pawn(BasePiece):
         else:
             return False
 
-    #TODO en passant
+    #Check if en passant is possible
     def check_move_for_en_passant(self, req_row, des_pos, cur_pos, board):
-        pass
+        if req_row == cur_pos[0]:
+            piece_at_pos = board.board[cur_pos[0]][des_pos[1]]
+            if (piece_at_pos.piece_type == PieceType.PAWN):
+                if piece_at_pos.color != self.color:
+                    return True
+        return False

@@ -88,6 +88,7 @@ class Pawn(BasePiece):
     def check_move_for_en_passant(self, req_row, des_pos, cur_pos, board):
         if req_row == cur_pos[0]:
             piece_at_pos = board.board[cur_pos[0]][des_pos[1]]
+            # if enemy piece is a pawn
             if (piece_at_pos.piece_type == PieceType.PAWN):
                 if piece_at_pos.color != self.color:
                     return True

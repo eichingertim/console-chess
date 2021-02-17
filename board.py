@@ -40,6 +40,13 @@ class Board:
         return b
 
     def move(self, start_pos, end_pos):
+        # Special turn en passant
+        if self.board[start_pos[0]][start_pos[1]].piece_type == PieceType.PAWN and abs(start_pos[1] - end_pos[1] == 1):
+            if isinstance(self.board[end_pos[0]][end_pos[1]], Empty):
+                # removes the enemy pawn
+                self.board[start_pos[0]][end_pos[1]] = Empty()  
+
+        # Normal turn
         piece = self.board[end_pos[0]][end_pos[1]]
         self.board[end_pos[0]][end_pos[1]] = self.board[start_pos[0]][start_pos[1]]
         self.board[start_pos[0]][start_pos[1]] = Empty()

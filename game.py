@@ -55,6 +55,7 @@ class Game:
         self.board.move(s_pos, e_pos)
 
 
+        # Checks if pawn transformation is possible
         if (e_pos[0] == 0 or e_pos[0] == 7) and self.board.get_type(e_pos) == PieceType.PAWN:
             piece_input = input("Choose between ROOK, BISHOP, KNIGHT of QUEEN: ")
             while (piece_input != "ROOK" and piece_input != "BISHOP" and \

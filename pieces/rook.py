@@ -8,6 +8,7 @@ class Rook(BasePiece):
 
     def __init__(self, color):
         super().__init__(PieceType.ROOK, color)
+        self.is_moved = False
 
     def __str__(self):
         if (self.color == Color.BLACK):

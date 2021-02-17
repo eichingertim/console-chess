@@ -15,8 +15,6 @@ class Pawn(BasePiece):
         else:
             return "\u2659"
             
-    #TODO Bauernumwandlung
-    #TODO en passant
 
     def can_move(self, board, des_row, des_col):
 
@@ -84,5 +82,6 @@ class Pawn(BasePiece):
         else:
             return False
 
+    #TODO en passant
     def check_move_for_en_passant(self, req_row, des_pos, cur_pos, board):
         pass

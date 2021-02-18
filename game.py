@@ -34,15 +34,18 @@ class Game:
                 print(f"It's your turn {self.player_black}")
                 self.last_move_color = self.move(self.player_black)
 
-            # self.winner = self.board.check_for_check_mate(self.last_move_color)
+            self.board.is_game_over = self.board.check_for_check_mate(self.last_move_color)
         
         self.print_end()
 
     def print_end(self):
+
+        print(self.board)
+
         if self.last_move_color == Color.WHITE:
-            print(f"Congratulations {self.player_white.name}! You won.")
+            print(f"Congratulations {self.player_white.name}! You won by checkmate.")
         else:
-            print(f"Congratulations {self.player_black.name}! You won.")                
+            print(f"Congratulations {self.player_black.name}! You won by checkmate.")                
     
     def move(self, player):
         move_input = input("Enter your move (e.g. A8 to A5): ")

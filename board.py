@@ -18,15 +18,15 @@ class Board:
     NUMBERS.reverse()
 
     def __init__(self):
-        self.king_white = King(Color.WHITE)
-        self.king_black = King(Color.BLACK)
+        self.black_king = King(Color.BLACK)
+        self.white_king = King(Color.WHITE)
         self.board = self.create_board()
         self.is_game_over = False
 
     def create_board(self):
         b = np.zeros((8,8), dtype=BasePiece)
         b[0] = [Rook(Color.BLACK), Knight(Color.BLACK), \
-             Bishop(Color.BLACK), Queen(Color.BLACK), self.king_black, \
+             Bishop(Color.BLACK), Queen(Color.BLACK), self.black_king, \
                  Bishop(Color.BLACK), Knight(Color.BLACK), Rook(Color.BLACK)]
         b[1] = [Pawn(Color.BLACK) for i in range(len(Board.LETTERS))]
 
@@ -35,23 +35,30 @@ class Board:
 
         b[6] = [Pawn(Color.WHITE) for i in range(len(Board.LETTERS))]
         b[7] = [Rook(Color.WHITE), Knight(Color.WHITE), \
-             Bishop(Color.WHITE), Queen(Color.WHITE), self.king_white, \
+             Bishop(Color.WHITE), Queen(Color.WHITE), self.white_king, \
                  Bishop(Color.WHITE), Knight(Color.WHITE), Rook(Color.WHITE)]  
         return b
 
     def move(self, start_pos, end_pos):
         # Special turn en passant
+        if not self.check_en_passant(start_pos, end_pos):
+            # Normal turn
+            piece = self.board[end_pos[0]][end_pos[1]]
+            self.board[end_pos[0]][end_pos[1]] = self.board[start_pos[0]][start_pos[1]]
+            self.board[start_pos[0]][start_pos[1]] = Empty()
+
+        # Special turn rochade
+        self.check_rochade(start_pos, end_pos)
+
+    def check_en_passant(self, start_pos, end_pos):
         if self.board[start_pos[0]][start_pos[1]].piece_type == PieceType.PAWN and abs(start_pos[1] - end_pos[1] == 1):
             if isinstance(self.board[end_pos[0]][end_pos[1]], Empty):
                 # removes the enemy pawn
-                self.board[start_pos[0]][end_pos[1]] = Empty()  
+                self.board[start_pos[0]][end_pos[1]] = Empty()
+                return True
+        return False
 
-        # Normal turn
-        piece = self.board[end_pos[0]][end_pos[1]]
-        self.board[end_pos[0]][end_pos[1]] = self.board[start_pos[0]][start_pos[1]]
-        self.board[start_pos[0]][start_pos[1]] = Empty()
-
-        # Special turn rochade
+    def check_rochade(self, start_pos, end_pos):
         if self.board[end_pos[0]][end_pos[1]].piece_type == PieceType.KING or self.board[end_pos[0]][end_pos[1]].piece_type == PieceType.ROOK:
             self.board[end_pos[0]][end_pos[1]].is_moved = True
             if self.board[end_pos[0]][end_pos[1]].piece_type == PieceType.KING and abs(start_pos[1] - end_pos[1]) >= 0:
@@ -62,9 +69,59 @@ class Board:
                 self.board[end_pos[0]][end_pos[1] + direction] = Empty()
                 self.board[end_pos[0]][end_pos[1] - direction].is_moved = True
 
+    def check_for_check_mate(self, last_moved_color):
 
-        if piece.piece_type == PieceType.KING:
-            self.is_game_over = True
+        b = copy.deepcopy(self)
+        moves = list()
+
+        # 1.) go thorugh all possible pieces !last_moved_color
+        for row in b.get_board():
+            for piece in row:
+                # 2.) get all possible moves
+
+                if (piece.color != last_moved_color):
+                    for i in range(len(b.get_board())):
+                        for j in range(len(b.get_board()[0])):
+                            if piece.can_move(b, i, j):
+                                moves.append((b.get_position(piece), (i,j)))
+                else:
+                    continue
+
+                 # 3.) make that moves
+                for m in moves:
+                    b_copy = copy.deepcopy(b)
+                    b_copy.move(m[0], m[1])
+
+                    king_pos = b_copy.get_king_pos(Color.BLACK if last_moved_color == Color.WHITE else Color.WHITE)
+
+                    can_attack = False
+                    # 4.) check for last_moved_color all pieces, if it can attack king0
+                    for r in b_copy.get_board():
+                        for p in r:
+                            if p.color == last_moved_color and p.can_move(b_copy, king_pos[0], king_pos[1]):
+                                can_attack = True
+                    
+                    if not can_attack:
+                        print(m)
+                        return False
+        
+        return True
+
+
+
+                            
+
+               
+                
+                
+
+    def get_king_pos(self, color):
+        for r in self.board:
+            for p in r:
+                if p.color == color and p.piece_type == PieceType.KING:
+                    return self.get_position(p)
+
+        return None
 
     def __str__(self):
 
@@ -120,51 +177,3 @@ class Board:
             return True
         else:
             return False
-
-    """
-    def check_for_check_mate(self, color):
-
-        k = self.king_white if color == Color.BLACK else self.king_black
-        directions = [(1, 0), (1,1), (0,1), (-1,1), (-1,0), (-1,-1), (0,-1), (1,-1)]
-        can_move = [False, False, False, False, False, False, False, False]
-        counter = 0
-
-        for d in directions:
-            board_copy = copy.deepcopy(self)
-            b = board_copy.board
-            rk, ck = self.get_position(k)
-            try:
-                if b[rk][ck].can_move(board_copy, rk+d[0], ck+d[1]):
-                    b[rk+d[0]][ck+d[1]] = b[rk][ck]
-                    b[rk][ck] = Empty()
-                else:
-                    can_move.remove(0)
-                    continue
-            except:
-                can_move.remove(0)
-                continue
-            
-            found = False
-            for row in range(len(self.board)):
-                for col in range(len(self.board[0])):
-                    if b[row][col].color != color:
-                        if b[row][col].can_move(board_copy, rk+d[0], ck+d[1]):
-                            can_move[counter] = True
-                            break
-                if found:
-                    break
-            
-            counter += 1
-
-        if len(can_move) == 0:
-            return None
-
-        c = color if all(ele == True for ele in can_move) else None
-
-        print(can_move)
-
-        if not c == None:
-            self.is_game_over = True
-
-        return c
-"""

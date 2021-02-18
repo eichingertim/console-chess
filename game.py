@@ -2,6 +2,7 @@ from board import Board
 from player import Player
 from pieces.color import Color
 from helper.utils import Utils
+from pieces.piece_type import PieceType
 
 class Game:
 
@@ -52,6 +53,18 @@ class Game:
         s_pos, e_pos = val_result.start_pos, val_result.end_pos
 
         self.board.move(s_pos, e_pos)
+
+
+        # Checks if pawn transformation is possible
+        if (e_pos[0] == 0 or e_pos[0] == 7) and self.board.get_type(e_pos) == PieceType.PAWN:
+            piece_input = input("Choose between ROOK, BISHOP, KNIGHT of QUEEN: ")
+            while (piece_input != "ROOK" and piece_input != "BISHOP" and \
+                piece_input != "KNIGHT" and piece_input != "QUEEN"):
+                print("This input is not valid")
+                piece_input = input("Choose between ROOK, BISHOP, KNIGHT of QUEEN: ")
+            print(piece_input)
+            self.board.set_piece(piece_input, player.color, e_pos)
+                
 
         return player.color
 

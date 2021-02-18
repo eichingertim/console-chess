@@ -43,7 +43,6 @@ class Board:
         # Special turn en passant
         if not self.check_en_passant(start_pos, end_pos):
             # Normal turn
-            piece = self.board[end_pos[0]][end_pos[1]]
             self.board[end_pos[0]][end_pos[1]] = self.board[start_pos[0]][start_pos[1]]
             self.board[start_pos[0]][start_pos[1]] = Empty()
 

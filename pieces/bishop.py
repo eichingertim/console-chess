@@ -21,7 +21,7 @@ class Bishop(BasePiece):
 
         # Checks if destination position is current position 
         # or it's not a diagonal movement
-        if (cur_col, cur_row) == (dest_row, dest_col) or \
+        if (cur_row, cur_col) == (dest_row, dest_col) or \
              abs(cur_col - dest_col) != abs(cur_row - dest_row):
             return False
 

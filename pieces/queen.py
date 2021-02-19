@@ -21,7 +21,7 @@ class Queen(BasePiece):
 
         # Checks if destination position is current position 
         # TODO other cases possible?
-        if (cur_col, cur_row) == (des_row, des_col):
+        if (cur_row, cur_col) == (des_row, des_col):
             return False
 
         # calculates the direction we should check for the move

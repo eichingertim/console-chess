@@ -58,15 +58,24 @@ class Board:
         return False
 
     def check_rochade(self, start_pos, end_pos):
-        if self.board[end_pos[0]][end_pos[1]].piece_type == PieceType.KING or self.board[end_pos[0]][end_pos[1]].piece_type == PieceType.ROOK:
-            self.board[end_pos[0]][end_pos[1]].is_moved = True
-            if self.board[end_pos[0]][end_pos[1]].piece_type == PieceType.KING and abs(start_pos[1] - end_pos[1]) >= 0:
-                # moves rook
-                direction = -1 if end_pos[1] - start_pos[1] < 0 else 1
-                rook = self.board[end_pos[0]][end_pos[1]+direction]
-                self.board[end_pos[0]][end_pos[1] - direction] = rook
-                self.board[end_pos[0]][end_pos[1] + direction] = Empty()
-                self.board[end_pos[0]][end_pos[1] - direction].is_moved = True
+
+        e_pos_row = end_pos[0]
+        e_pos_col = end_pos[1]
+
+        try:
+            if self.board[e_pos_row][e_pos_col].piece_type == PieceType.KING or self.board[e_pos_row][e_pos_col].piece_type == PieceType.ROOK:
+                self.board[e_pos_row][e_pos_col].is_moved = True
+                if self.board[e_pos_row][e_pos_col].piece_type == PieceType.KING and abs(start_pos[1] - end_pos[1]) >= 0:
+                    # moves rook
+                    direction = -1 if end_pos[1] - start_pos[1] < 0 else 1
+                    rook = self.board[e_pos_row][e_pos_col+direction]
+                    self.board[e_pos_row][e_pos_col - direction] = rook
+                    self.board[e_pos_row][e_pos_col + direction] = Empty()
+                    self.board[e_pos_row][e_pos_col - direction].is_moved = True
+        except:
+            return
+
+        
 
     def check_for_check(self, last_move_color):
         king_pos = self.get_king_pos(Color.BLACK if last_move_color == Color.WHITE else Color.WHITE)

@@ -1,6 +1,7 @@
 import re
 import numpy as np
 import copy
+from pieces.piece_type import PieceType
 from board import Board
 from pieces.color import Color
 from .validation_model import ValidationModel
@@ -10,7 +11,8 @@ class Utils:
     WRONG_EXPRESSION = "Wrong expression! Try again"
     NOT_VALID_MOVE = "This move is not possible! Try again"
     WRONG_PIECES = "You cannot move with your enemie's piece! Try again"
-    KING_NOT_SAVE = "This move is not possible! Your king would be checkmate"
+    KING_NOT_SAVE = "This move is not possible! Your king would be checkmate! Try again"
+    STARTED_AT_EMPTY = "You cannot start from an empty space! Try again"
 
     """
     Validates the entered move and checks if the king can be attacked.
@@ -50,6 +52,9 @@ class Utils:
         end_pos = Utils.convert_input_str_to_pos(end_str)
 
         piece = board.get_board()[start_pos[0]][start_pos[1]]
+
+        if piece.piece_type == PieceType.EMPTY:
+            return ValidationModel(False, None, None, Utils.STARTED_AT_EMPTY)
 
         if not player.color == piece.color:
             return ValidationModel(False, None, None, Utils.WRONG_PIECES)
@@ -114,7 +119,6 @@ class Utils:
 
         for i in range(len(Board.LETTERS)):
             if Board.LETTERS[i] == col:
-                print(Board.LETTERS[i])
                 pos[1] = i
                 break
 

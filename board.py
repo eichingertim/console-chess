@@ -65,19 +65,16 @@ class Board:
         e_pos_row = end_pos[0]
         e_pos_col = end_pos[1]
 
-        try:
-            if self.board[e_pos_row][e_pos_col].piece_type == PieceType.KING or self.board[e_pos_row][e_pos_col].piece_type == PieceType.ROOK:
-                self.board[e_pos_row][e_pos_col].is_moved = True
-                if self.board[e_pos_row][e_pos_col].piece_type == PieceType.KING and abs(start_pos[1] - end_pos[1]) >= 0:
+        if self.board[e_pos_row][e_pos_col].piece_type == PieceType.KING or self.board[e_pos_row][e_pos_col].piece_type == PieceType.ROOK:
+            if self.board[e_pos_row][e_pos_col].piece_type == PieceType.KING and abs(start_pos[1] - end_pos[1]) > 1 and not self.board[e_pos_row][e_pos_col].is_moved::
+                direction = -1 if end_pos[1] - start_pos[1] < 0 else 1
+                rook = self.board[e_pos_row][e_pos_col + direction]
+                if not rook.is_moved:
                     # moves rook
-                    direction = -1 if end_pos[1] - start_pos[1] < 0 else 1
-                    rook = self.board[e_pos_row][e_pos_col+direction]
                     self.board[e_pos_row][e_pos_col - direction] = rook
                     self.board[e_pos_row][e_pos_col + direction] = Empty()
                     self.board[e_pos_row][e_pos_col - direction].is_moved = True
-        except:
-            return
-
+            self.board[e_pos_row][e_pos_col].is_moved = True
         
 
     def check_for_check(self, last_move_color):

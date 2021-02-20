@@ -11,7 +11,7 @@ class Game:
         self.player_white, self.player_black = None, None
         self.board = Board()
         self.winner = None
-        self.last_move_color = Color.WHITE
+        self.last_move_color = Color.BLACK
 
     def read_player(self):
         pb_name = input("Enter the name of player BLACK: ")

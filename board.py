@@ -68,6 +68,16 @@ class Board:
                 self.board[end_pos[0]][end_pos[1] + direction] = Empty()
                 self.board[end_pos[0]][end_pos[1] - direction].is_moved = True
 
+    def check_for_check(self, last_move_color):
+        king_pos = self.get_king_pos(Color.BLACK if last_move_color == Color.WHITE else Color.WHITE)
+
+        for row in self.board:
+            for piece in row:
+                if piece.color == last_move_color and piece.can_move(self, king_pos[0], king_pos[1]):
+                    return True
+        
+        return False
+
     def check_for_check_mate(self, last_moved_color):
 
         b = copy.deepcopy(self)
@@ -94,14 +104,13 @@ class Board:
                     king_pos = b_copy.get_king_pos(Color.BLACK if last_moved_color == Color.WHITE else Color.WHITE)
 
                     can_attack = False
-                    # 4.) check for last_moved_color all pieces, if it can attack king0
+                    # 4.) check for last_moved_color all pieces, if it can attack king
                     for r in b_copy.get_board():
                         for p in r:
                             if p.color == last_moved_color and p.can_move(b_copy, king_pos[0], king_pos[1]):
                                 can_attack = True
                     
                     if not can_attack:
-                        print(m)
                         return False
         
         return True

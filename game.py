@@ -34,6 +34,9 @@ class Game:
                 print(f"It's your turn {self.player_black}")
                 self.last_move_color = self.move(self.player_black)
 
+            if (self.board.check_for_check(self.last_move_color)):
+                print(f"\n{self.player_black if self.last_move_color == Color.WHITE else self.player_white}, you are in check")
+
             self.board.is_game_over = self.board.check_for_check_mate(self.last_move_color)
         
         self.print_end()

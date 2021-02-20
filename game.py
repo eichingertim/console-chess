@@ -57,7 +57,7 @@ class Game:
             move_input = input("Enter your move (e.g. A8 to A5): ")
         
         s_pos, e_pos = val_result.start_pos, val_result.end_pos
-
+        
         self.board.move(s_pos, e_pos)
 
 

@@ -50,10 +50,13 @@ class Board:
         self.check_rochade(start_pos, end_pos)
 
     def check_en_passant(self, start_pos, end_pos):
-        if self.board[start_pos[0]][start_pos[1]].piece_type == PieceType.PAWN and abs(start_pos[1] - end_pos[1] == 1):
+        if self.board[start_pos[0]][start_pos[1]].piece_type == PieceType.PAWN and abs(start_pos[1] - end_pos[1]) == 1:
             if isinstance(self.board[end_pos[0]][end_pos[1]], Empty):
                 # removes the enemy pawn
                 self.board[start_pos[0]][end_pos[1]] = Empty()
+                # normal turn
+                self.board[end_pos[0]][end_pos[1]] = self.board[start_pos[0]][start_pos[1]]
+                self.board[start_pos[0]][start_pos[1]] = Empty()
                 return True
         return False
 
@@ -108,6 +111,7 @@ class Board:
                  # 3.) make that moves
                 for m in moves:
                     b_copy = copy.deepcopy(b)
+                    print("for checkmate")
                     b_copy.move(m[0], m[1])
 
                     king_pos = b_copy.get_king_pos(Color.BLACK if last_moved_color == Color.WHITE else Color.WHITE)

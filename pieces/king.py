@@ -32,7 +32,6 @@ class King(BasePiece):
             else:
                 return piece_at_pos.get_color() != self.get_color()
 
-        #TODO check if not moved
         # Check special turn "Rochade"
         if not self.is_moved:
             if ((cur_col - dest_col == 3 or dest_col - cur_col == 2) and dest_row-cur_row == 0):

@@ -8,11 +8,11 @@ from .validation_model import ValidationModel
 
 class Utils:
 
-    WRONG_EXPRESSION = "Wrong expression! Try again"
-    NOT_VALID_MOVE = "This move is not possible! Try again"
-    WRONG_PIECES = "You cannot move with your enemie's piece! Try again"
-    KING_NOT_SAVE = "This move is not possible! Your king would be checkmate! Try again"
-    STARTED_AT_EMPTY = "You cannot start from an empty space! Try again"
+    WRONG_EXPRESSION = "    Wrong expression! Try again"
+    NOT_VALID_MOVE = "    This move is not possible! Try again"
+    WRONG_PIECES = "    You cannot move with your enemie's piece! Try again"
+    KING_NOT_SAVE = "    This move is not possible! Your king would be checkmate! Try again"
+    STARTED_AT_EMPTY = "    You cannot start from an empty space! Try again"
 
     """
     Validates the entered move and checks if the king can be attacked.

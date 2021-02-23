@@ -19,8 +19,7 @@ class Queen(BasePiece):
 
         cur_row, cur_col = board.get_position(self) 
 
-        # Checks if destination position is current position 
-        # TODO other cases possible?
+        # Checks if destination position is current position
         if (cur_row, cur_col) == (des_row, des_col):
             return False
 

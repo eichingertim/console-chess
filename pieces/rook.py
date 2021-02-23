@@ -22,7 +22,6 @@ class Rook(BasePiece):
 
         # Checks if destination position is current position
         # or is not a horizontal/vertical movement
-        # TODO (reihenfolge wichtig?)
         if ((cur_col - des_col) != 0 and (cur_row - des_row) != 0) \
             or (cur_col, cur_row) == (des_row, des_col):
             return False
